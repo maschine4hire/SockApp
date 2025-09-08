@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    //@state ist damit var veränderbar ist aber es reset sich oft
+    //mit @AppStorage sollte das nicht passieren, also der row count soll weiter gehen
+    @AppStorage("counterKey") private var counter = 0
     var body: some View {
         
         ZStack{
-            RadialGradient(gradient: Gradient(colors: [Color.yellow, Color.red]), center: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, startRadius: /*@START_MENU_TOKEN@*/5/*@END_MENU_TOKEN@*/, endRadius: /*@START_MENU_TOKEN@*/500/*@END_MENU_TOKEN@*/)
-                .cornerRadius(15)
+            Image("background")
+                .resizable()
         VStack {
          
                 
@@ -20,7 +23,32 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .multilineTextAlignment(.center)
                 Text("or at least it tries")
+            Button("push to count the row") {
+                counter+=1
+                print(counter)
+            }
+            .padding(.all, 20.0)
+            .background(Color(hue: 0.587, saturation: 0.775, brightness: 1.0))
+            .cornerRadius(15)
+            .foregroundColor(.white)
+            
+            Text("Row count so far: \(counter)")
+                .font(.largeTitle)
+                           .padding()
+
+            Button(action: {
+                counter = 0
+            }) {
+                Image(systemName: "arrowshape.turn.up.backward.circle")
+                    .foregroundColor(Color.purple)
+                Text("reset counter")
+                    .font(.headline)
+                    .foregroundColor(Color.purple)
+            }
+
+           
         }.padding()
+          
         }.ignoresSafeArea()
        
     }
